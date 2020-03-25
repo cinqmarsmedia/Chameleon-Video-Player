@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html, body {
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <!-- handlers for supported mouse events on body -->
+  <!-- <body
+    onmouseup="onEvent('mouseUp', event)"
+    onmousedown="onEvent('mouseDown', event)"
+    onmouseenter="onEvent('mouseEnter', event)"
+    onmouseleave="onEvent('mouseLeave', event)"
+    onmousemove="onEvent('mouseMove', event)"
+    > -->
+    <body>
+    <script>
+      const {ipcRenderer} = require('electron');
+
+      const getEventModifiers = evt => [
+        { field: 'ctrlKey', name: 'control' },
+        { field: 'shiftKey', name: 'shift' },
+        { field: 'altKey', name: 'alt' },
+        { field: 'metaKey', name: 'meta' }
+      ].filter(elm => evt[elm.field]).map(elm => elm.name);
+
+      const getEventButton = evt => {
+        switch (evt.button) {
+          case 2:
+            return 'right';
+          case 1:
+            return 'middle';
+          case 0:
+          default:
+            return 'left';
+        }
+      }
+
+      // window.onEvent = function (type, evt) {
+      //   // send the event to ipcMain
+      //   return ipcRenderer.send('ClickableRegion::mouse-event', {
+      //     type,
+      //     modifiers: getEventModifiers(evt),
+      //     button: getEventButton(evt),
+      //     x: evt.clientX,
+      //     y: evt.clientY,
+      //     globalX: evt.screenX,
+      //     globalY: evt.screenY,
+      //     movementX: evt.movementX,
+      //     movementY: evt.movementY,
+      //     clickCount: evt.detail,
+      //   });
+      // }
+    </script>
+  </body>
+</html>

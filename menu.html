@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no"> 
+    <script src="controller.js"></script>  
+</head>
+<style>
+
+    @font-face {
+  font-family: 'Righteous';
+  font-style: normal;
+  font-weight: 400;
+  src: local('assets/Righteous.ttf'), local('assets/Righteous-Regular.ttf'), url(http://themes.googleusercontent.com/static/fonts/righteous/v2/w5P-SI7QJQSDqB3GziL8XaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+}
+body{
+    background: url("assets/img/bck.png") no-repeat center center, #ececec;
+    background-size: 150%;
+    background-position:70% 0%;
+    font-family: 'Righteous' !important;
+
+
+
+}
+
+.button{
+    color:white;
+    font-size:15px;
+    border:none;
+    text-shadow:1px 1px rgba(0,0,0,.5);
+    box-shadow:-1px 2px rgba(0,0,0,.5);
+     font-family: 'Righteous' !important;
+}
+
+.red{background-color: #dc5a63;}
+.orange{background-color: #f5b95b;}
+.blue{background-color: #77b9bf;}
+.green{background-color: #b5daa2;}
+.purple{background-color: #817ba8;}
+.yellow{background-color: #f5f180;}
+
+#slidecontainer {
+    width: 100%;
+}
+.zoom:hover{
+	transform: scale(1.02);
+}
+.opacHover:hover{
+      cursor: pointer !important;
+      opacity:1 !important;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 27px;
+    height: 27px;
+    border: 0;
+    background: url('assets/icons/contrast.svg');
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 27px;
+    height: 27px;
+    border: 0;
+    background: url('assets/icons/contrast.svg');
+    cursor: pointer;
+}
+
+
+
+img {
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+
+button:hover{
+      cursor: pointer;
+      transform: scale(1.02);
+}
+
+img:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+
+</style>
+<body style="
+user-select: none">
+    <div class="container" style="color:black;font-size:14px;text-align:center">
+        <br> <br>
+      <div id="slidecontainer">
+  <input type="range" min="0" max="100" value="25" class="slider" id="myRange">
+</div><br>
+<!--
+       <br>
+        <button class="button red" onclick="controller('opacityplus',null)">Opacity <b>+</b></button><b> ⇧⌘=</b>
+
+        <button class="button red" onclick="controller('opacityminus',null)">Opacity <b>-</b></button><b> ⇧⌘-</b>
+        <br>
+
+        <hr style="border-color:black !important">
+          -->
+<button onclick="toggleIT()" class="button red" id="hide"><span id="toggleTxt">Send To Background</span> <i id="secondToggleTxt" style="font-size:12px">(UnFocus)</i></button>
+          
+<div id="scrubbing" style="margin-bottom:-10px;margin-top:-5px">
+
+<img onclick="controller('timefastback',null)" src="assets/icons/prev.png" draggable="false" style="width:31px;position:absolute;left:15px;top:79px;     
+    filter: drop-shadow(1px 2px 0px rgba(0,0,0,.5))">
+
+<img  onclick="controller('timeminus',null)" src="assets/icons/rewind.png" draggable="false" style="width:37px;position:absolute;left:61px;top:75px;     
+    filter: drop-shadow(0px 0px 5px rgba(255,255,255,1)">
+<img id="playpauser" onclick="controller('playpause',null)" src="assets/icons/ic_pause_black_24px.svg" draggable="false" style="width:60px;margin-top:-11px;     
+    filter: drop-shadow(1px 2px 0px rgba(0,0,0,.5))">
+<img onclick="controller('timeplus',null)" src="assets/icons/forward.png" draggable="false" style="width:37px;position:absolute;right:61px;top:75px;     
+    filter: drop-shadow(0px 0px 5px rgba(255,255,255,1))">
+<img onclick="controller('timefastforward',null)" src="assets/icons/next.png" draggable="false" style="width:31px;position:absolute;right:15px;top:79px;     
+    filter: drop-shadow(1px 2px 0px rgba(0,0,0,.5))">
+</div>
+
+<hr style="border-color:black !important">
+<div style="margin-bottom:-10px"><span style="font-size:16px"><b>Keyboard Shortcuts</span></div><br>
+
+<!-- MAC-->
+
+<span id="ctrls">
+PlayPause: ⇧<span id="plat1"></span>P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Mute: ⇧<span id="plat2"></span>M<br>
+Back15: ⇧<span id="plat3"></span>[&nbsp;&nbsp;&nbsp;&nbsp;
+Skip30: ⇧<span id="plat4"></span>] 
+</span>
+<br>
+
+<span id="togshort" style="display:none">
+&nbsp;&nbsp;Switch: ⇧<span id="plat7"></span>T&nbsp;&nbsp;
+&nbsp;&nbsp;Menu: ⇧<span id="plat8"></span>J&nbsp;&nbsp;
+&nbsp;&nbsp;Hide: ⇧<span id="plat9"></span>H&nbsp;&nbsp;
+&nbsp;&nbsp;Full: ⇧<span id="plat10"></span>F&nbsp;&nbsp;
+</span>
+
+
+Opacity-: ⇧<span id="plat6"></span>-&nbsp;&nbsp;
+Opacity+: ⇧<span id="plat5"></span>=&nbsp;  &nbsp;
+
+
+
+
+
+
+
+
+
+<br>
+</b><div style="margin-top:15px">
+<button class="button blue" onclick="bakc()"> Back to Main </button>
+        <button class="button orange" onclick="controller('quit',null)"> Quit Chameleon</button>
+      </div>
+        <br><br>
+       
+<img onclick="controller('github')" src="assets/icons/github.png" style="width:21px;position:absolute;bottom:15px;left:41px"><div class="zoom" onclick="controller('cmm')" style="position:absolute;bottom:15px;left:69px">Cinq-Mars Media ©2020</div>
+
+
+    </div>
+
+<script>
+
+
+    var slider = document.getElementById("myRange");
+
+slider.oninput = function() {
+  controller('opac',this.value/100);
+
+}
+
+
+
+
+//document.getElementById("plat").innerHTML="⊞"; //⌘
+
+  </script>  
+</body>
+</html>

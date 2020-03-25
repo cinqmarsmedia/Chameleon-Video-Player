@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="controller.js"></script> 
+   
+</head>
+
+
+<style>
+
+    @font-face {
+  font-family: 'Righteous';
+  font-style: normal;
+  font-weight: 400;
+  src: local('assets/Righteous.ttf'), local('assets/Righteous-Regular.ttf'), url(http://themes.googleusercontent.com/static/fonts/righteous/v2/w5P-SI7QJQSDqB3GziL8XaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+}
+
+  html,
+  body {
+    
+    font-family: 'Righteous' !important;
+-webkit-user-select: none;
+-moz-user-select: none;
+-o-user-select: none;
+user-select: none;
+  }
+
+button:hover{
+      cursor: pointer !important;
+       transform: scale(1.03);
+}
+
+img:hover {
+    cursor: pointer !important;
+}
+
+body{
+    background: url("assets/img/bck.png") no-repeat center center, #ececec;
+    background-size: 150%;
+    background-position:70% 0%;
+    
+}
+
+.button{
+    color:white;
+    font-size:22px;
+    border:none;
+    text-shadow:1px 1px rgba(0,0,0,.5);
+    box-shadow:-1px 2px rgba(0,0,0,.5);
+    font-family: 'Righteous' !important;
+}
+
+.red{background-color: #dc5a63;}
+.orange{background-color: #f5b95b;}
+.blue{background-color: #77b9bf;}
+.green{background-color: #b5daa2;}
+.purple{background-color: #817ba8;}
+.yellow{background-color: #f5f180;}
+
+
+.base-timer {
+  position: absolute;
+  right:100px;
+  top:155px;
+  width: 45px;
+  height: 45px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke-width: 12px;
+  stroke: grey;
+}
+
+.base-timer__path-remaining {
+  stroke-width: 12px;
+  stroke-linecap: round;
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+}
+
+.base-timer__path-remaining.green {
+  color: rgb(65, 184, 131);
+}
+
+.base-timer__path-remaining.orange {
+  color: orange;
+}
+
+.base-timer__path-remaining.red {
+  color: red;
+}
+
+.base-timer__label {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  
+}
+.spinner {
+  width: 400px;
+  height: 400px;
+
+  position: absolute;
+  margin-left:auto;margin-right:auto;
+  top:65px;left:0;right:0
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+</style>
+
+
+<body>
+    <div class="container" style="color:black;font-size:20px;text-align:center">
+<span style="font-size:35px">
+        Welcome to <b>Chameleon Player</b>
+</span><br>
+developed by <b>Cinq-Mars Media</b>
+    <br>
+<hr>
+CMM is a 501(c)3 non-profit that relies on donations. Please consider making one to skip this popup in the future.<div style="padding-top:15px;padding-top:15px">
+ <button id="purch" class="button orange" style="font-size:25px !important" onclick="controller('donate')"><b>Donate</b></button>
+    <button id="cont" style="opacity:.5;margin-left:20px;font-size:25px !important" class="button purple" onclick="contButt()" ><b>Continue</b></button><div id="app"></div>
+
+</div>
+     <hr>
+
+     <div id="steamFrame" style="text-align:center;padding-left:10px">
+  <!--
+<iframe style="z-index:99;position:relative;padding-left:5px" src="https://store.steampowered.com/widget/834170/" frameborder="0" width="98%" height="188px" async></iframe>
+-->
+<img onclick="controller('steamexternal')" width="98%" src="assets/steam.png">
+    <hr>
+</div>
+Did you already purchase or donate? Thank you!!<br> Please validate your email below. <br>
+  <div style="padding-top:10px">
+  <input id="email" style="width:200px;font-size:22px" placeholder=" email address">
+
+    <button class="button green" onclick="enterEmail()"><b>Validate</b></button>
+
+</div>
+   
+<!--
+      <div id="break"><br></div>
+<hr>
+    <button class="button red" onclick="controller('quitprompt')"><b>Quit Program</b></button>
+-->
+    </div>
+<div id="loader" style="display:none" class="spinner">
+  <div class="double-bounce1"></div>
+  <div class="double-bounce2"></div>
+</div>
+</body>
+<script>
+
+const FULL_DASH_ARRAY = 283;
+const WARNING_THRESHOLD = 10;
+const ALERT_THRESHOLD = 5;
+
+const COLOR_CODES = {
+  info: {
+    color: "green"
+  },
+  warning: {
+    color: "orange",
+    threshold: WARNING_THRESHOLD
+  },
+  alert: {
+    color: "red",
+    threshold: ALERT_THRESHOLD
+  }
+};
+
+const TIME_LIMIT = 15;
+let timePassed = 0;
+let timeLeft = TIME_LIMIT;
+let timerInterval = null;
+let remainingPathColor = COLOR_CODES.info.color;
+
+document.getElementById("app").innerHTML = `
+<div class="base-timer">
+  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-timer__circle">
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining ${remainingPathColor}"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
+  <span id="base-timer-label" class="base-timer__label">${formatTime(
+    timeLeft
+  )}</span>
+</div>
+`;
+
+
+function onTimesUp() {
+  clearInterval(timerInterval);
+  //
+  document.getElementById("app").style.opacity=0;
+  document.getElementById("cont").style.opacity=1;
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timePassed = timePassed += 1;
+    timeLeft = TIME_LIMIT - timePassed;
+    document.getElementById("base-timer-label").innerHTML = formatTime(
+      timeLeft
+    );
+    setCircleDasharray();
+    setRemainingPathColor(timeLeft);
+
+    if (timeLeft === 0) {
+      //document.getElementById("app").style.visibility='hidden';
+      onTimesUp();
+    }
+
+   
+
+    
+  }, 1000);
+}
+
+function formatTime(time) {
+  const minutes = Math.floor(time / 60);
+  let seconds = time % 60;
+
+  if (seconds < 10) {
+    seconds = `0${seconds}`;
+  }
+
+  return `${seconds}`;
+}
+
+function setRemainingPathColor(timeLeft) {
+  const { alert, warning, info } = COLOR_CODES;
+  if (timeLeft <= alert.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(warning.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(alert.color);
+  } else if (timeLeft <= warning.threshold) {
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.remove(info.color);
+    document
+      .getElementById("base-timer-path-remaining")
+      .classList.add(warning.color);
+  }
+}
+
+function calculateTimeFraction() {
+  const rawTimeFraction = timeLeft / TIME_LIMIT;
+  return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+}
+
+function setCircleDasharray() {
+  const circleDasharray = `${(
+    calculateTimeFraction() * FULL_DASH_ARRAY
+  ).toFixed(0)} 283`;
+  document
+    .getElementById("base-timer-path-remaining")
+    .setAttribute("stroke-dasharray", circleDasharray);
+}
+
+
+
+startTimer();
+
+function contButt(){
+  if (timeLeft>0){return}
+  controller('start')
+}
+
+
+function enterEmail(){
+
+  // authentication process
+}
+
+
+
+</script>
+</html>

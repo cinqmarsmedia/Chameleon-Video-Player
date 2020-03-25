@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Chameleon Player</title>
+
+  <script src="controller.js"></script>
+</head>
+<style>
+
+@font-face {
+  font-family: 'Righteous';
+  font-style: normal;
+  font-weight: 400;
+  src: local('assets/Righteous.ttf'), local('assets/Righteous-Regular.ttf'), url(http://themes.googleusercontent.com/static/fonts/righteous/v2/w5P-SI7QJQSDqB3GziL8XaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
+}
+
+    webview {
+      width: 100%;
+      height: 80%;
+    }
+
+  html,
+  body {
+    
+    font-family: 'Righteous' !important;
+    margin:0px !important;
+    padding:0px !important;
+    background: rgba(0, 0, 0, 0);
+  }
+
+
+
+  .button{
+    color:white;
+    font-size:15px;
+    border:none;
+    text-shadow:1px 1px rgba(0,0,0,.5);
+    box-shadow:-1px 2px rgba(0,0,0,.5);
+    font-family: 'Righteous' !important;
+}
+
+button:hover{
+      cursor: pointer !important;
+       transform: scale(1.03);
+}
+
+
+.red{background-color: #dc5a63;}
+.orange{background-color: #f5b95b;}
+.blue{background-color: #77b9bf;}
+.green{background-color: #b5daa2;}
+.purple{background-color: #817ba8;}
+.yellow{background-color: #f5f180;}
+
+  .video-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .bOverlay{
+    z-index:9999;
+    position:absolute;
+    width:80%;
+    height:10%;
+    bottom:0;
+    margin-left:auto;
+    margin-right:auto;
+    left:0;
+    right:0;
+    background: url("assets/img/bck.png") no-repeat center center, #ececec;
+    background-size: 150%;
+    background-position:70% 0%;
+  }
+  
+button:hover{
+      cursor: pointer;
+}
+  .browser-window{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+  }
+
+  .video-container video {
+    /* Make video to at least 100% wide and tall */
+    min-width: 100%;
+    min-height: 100%;
+
+    /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+    width: auto;
+    height: auto;
+
+    /* Center the video */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+<body>
+
+  <div id="centered" style="position:absolute;left:0;right:0;margin-left:auto;margin-right:auto"></div>
+  <!--
+  <input style="display:hidden" id="the-file-input" type="file" multiple>
+-->
+
+
+<!---->
+<div id="browserContainer" style="z-index:9999">
+  <!---->
+  <div id="browserOverlay" style="padding:12px" class="bOverlay">
+Currently, the browser window is opaque in the foreground and interactable. Opacity controls are blocked in this mode. Whenever you set up your content for fullscreen playback, you may send this window to the background by clicking <button class="button orange" onclick="toggleHIDE()">here</button> or by using the shift (⇧) + <span id="plat11"></span> + T keyboard shortcut. Use this shortcut or the button in the tray icon menu to toggle back and forth. 
+<br>
+<!---->
+    <button style="float:right" class="button red" onclick="bakc()">Back to Main</button>
+
+
+  </div>
+
+<!---->
+
+<div id="load" style="position:absolute;width:100%;height:100%;background-image:url('assets/load.png');background-size:cover;background-position:center"></div>
+
+
+
+<webview id="webV" style="z-index:99" class="browser-window" src="http://www.google.com" autosize="on" plugins useragent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36"></webview>
+
+</div>
+
+  <div id="vidContainer" class="video-container">
+
+    <video id="video" min-width="100%" min-height="100%">
+      <source id="filetoplay" type="video/mp4">
+    </video>
+  </div>
+
+
+
+
+  <!--<img style="opacity:.5;width:100%" src="NnzxG4S.jpg">-->
+  <!--
+<iframe style="width:100%;height:100%" src="https://www.youtube.com/embed/XGSy3_Czz8k"></iframe>
+-->
+
+
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+
+
+  </script>
+</body>
+
+</html>

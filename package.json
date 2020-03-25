@@ -1,0 +1,86 @@
+{
+  "name": "ChameleonPlayer",
+  "rebuild": "npm rebuild --runtime=electron --target=7.9.0 --disturl=https://atom.io/download/atom-shell --abi=51",
+  "version": "2.0.0",
+  "description": "Play video transparently full screen while working in the background",
+  "main": "main.js",
+  "homepage": "https://www.cinqmarsmedia.com/",
+  "scripts": {
+    "start": "electron . --enable-logging --remote-debugging-port='8315'",
+    "pack": "build --dir",
+    "dist": "build",
+    "postinstall": "electron-builder install-app-deps",
+    "v": "electron -v",
+    "electron-rebuild": "electron-rebuild -v 8.0.0"
+  },
+  "build": {
+    "electronVersion": "8.0.0",
+    "productName": "Chameleon Player",
+    "electronDist": "./node_modules/electron/dist/",
+    "appId": "com.cinqmarsmedia.chameleon",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "mac": {
+      "icon": "./build/icon.icns",
+      "hardenedRuntime": true,
+      "entitlements": "./build/entitlements.mac.inherit.plist",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "maintainer": "Cinq-Mars Media",
+      "icon": "./build/icons"
+    },
+    "win": {
+      "target": [
+        "portable",
+        "nsis"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always"
+    },
+    "afterSign": "./widevine-build.js"
+  },
+  "dependencies": {
+    "add": "^2.0.6",
+    "crypto-js": "^3.1.9-1",
+    "electron-storage": "^1.0.7",
+    "menubar": "^8.0.0",
+    "node-abi": "^2.15.0",
+    "npm": "^6.12.0",
+    "robotjs": "^0.6.0"
+  },
+  "author": {
+    "name": "Christopher Cinq-Mars Jarvis",
+    "email": "info@cinqmarsmedia.com"
+  },
+  "license": "",
+  "devDependencies": {
+    "electron": "github:castlabs/electron-releases#v8.1.1-wvvmp",
+    "electron-builder": "^22.3.2",
+    "electron-notarize": "^0.2.1",
+    "electron-rebuild": "^1.10.0"
+  }
+}
