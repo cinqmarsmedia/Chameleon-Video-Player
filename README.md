@@ -5,9 +5,9 @@ Chameleon is an electron desktop app made by our 501(c)3 non-profit <a href="htt
 
 ## Getting Up & Running
 <br>
-<b>First run npm install to download the dependencies.</b> <br>
+<b>First run npm install to download dependencies.</b> <br>
 <b>Then run npm start</b><br>
 <br>
 The app should run, though the code lacks cohesive commenting. Comments will be updated shortly and the guide will be expanded upon soon. 
-<br>
+<br><br>
 Thank you for your patience and support. 
