@@ -206,14 +206,14 @@ ipcRenderer.on("timeplus", function(){
     var vid=document.getElementById('video')
 
 //vid.pause();
-vid.currentTime = vid.currentTime +30;
+vid.currentTime = vid.currentTime + 0.03337;
 });
 
 ipcRenderer.on("timeminus", function(){
     var vid=document.getElementById('video')
 
 //vid.pause();
-vid.currentTime = vid.currentTime -15;
+vid.currentTime = vid.currentTime - 0.03337;
 });
 
 ipcRenderer.on("timefastback", function(){
