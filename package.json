@@ -34,10 +34,7 @@
     },
     "mac": {
       "icon": "./build/icon.icns",
-      "hardenedRuntime": true,
-      "entitlements": "./build/entitlements.mac.inherit.plist",
       "target": [
-        "dmg",
         "zip"
       ]
     },
@@ -60,8 +57,7 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": "always"
-    },
-    "afterSign": "./widevine-build.js"
+    }
   },
   "dependencies": {
     "add": "^2.0.6",
